@@ -125,13 +125,16 @@
         }
 
         function getProximoNumero() {
-            // Recupera o último número usado da sessão ou começa do primeiro
+            // Usa os segundos atuais para determinar o número inicial
+            const timestamp = new Date().getTime();
+            let indice;
+            
+            // Recupera o último índice usado da sessão
             let ultimoIndice = sessionStorage.getItem('ultimoIndiceWhatsapp');
-            let indice = 0;
-
+            
             if (ultimoIndice === null) {
-                // Primeira vez - usa o primeiro número
-                indice = 0;
+                // Primeira vez - usa timestamp para escolher o número inicial
+                indice = Math.floor(timestamp / 1000) % numeros.length;
             } else {
                 // Próxima vez - alterna para o próximo número
                 indice = (parseInt(ultimoIndice) + 1) % numeros.length;
