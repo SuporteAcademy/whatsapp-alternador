@@ -127,15 +127,33 @@
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
+        function incrementarContadorGlobal() {
+            // Pega o contador atual do localStorage
+            let contador = parseInt(localStorage.getItem('contadorGlobalWhatsapp')) || 0;
+            
+            // Incrementa o contador
+            contador++;
+            
+            // Salva o novo valor
+            localStorage.setItem('contadorGlobalWhatsapp', contador);
+            
+            return contador;
+        }
+
         // Função que roda quando a página carrega
         window.onload = function() {
-            // Usa os milissegundos atuais para determinar o número
-            const timestamp = new Date().getTime();
-            // Alterna entre 0 e 1 baseado nos milissegundos
-            const indice = (timestamp % 2);
+            // Incrementa o contador global e usa o valor para determinar o número
+            const contador = incrementarContadorGlobal();
+            
+            // Usa o contador para alternar entre os números (par/ímpar)
+            const indice = contador % 2;
             numeroAtual = numeros[indice];
             
-            console.log('Timestamp:', timestamp, 'Índice:', indice, 'Número definido:', numeroAtual);
+            console.log('Contador Global:', contador, 'Índice:', indice, 'Número definido:', numeroAtual);
+
+            // Atualiza o texto do botão para mostrar qual número está selecionado
+            const whatsappButton = document.getElementById('whatsappButton');
+            whatsappButton.innerHTML = `<i class="fab fa-whatsapp"></i> Falar com Consultor (${numeroAtual.slice(-4)})`;
         };
 
         const whatsappButton = document.getElementById('whatsappButton');
