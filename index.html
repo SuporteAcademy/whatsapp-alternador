@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alternador de WhatsApp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #128C7E;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .numero-atual {
+            background: #f0f2f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .whatsapp-button {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .contador {
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Alternador de WhatsApp</h1>
+        <div class="numero-atual" id="numeroAtual">
+            Clique no botão para iniciar
+        </div>
+        <button class="whatsapp-button" id="whatsappButton">
+            Abrir WhatsApp
+        </button>
+        <div class="contador" id="contador">
+            Números disponíveis: 3
+        </div>
+    </div>
+
+    <script>
+        // Lista de números de WhatsApp
+        const numeros = [
+            '55859991881315',
+            '5585991582021',
+            '5511977777777'
+        ];
+
+        let indiceAtual = 0;
+        const numeroAtual = document.getElementById('numeroAtual');
+        const whatsappButton = document.getElementById('whatsappButton');
+        const contador = document.getElementById('contador');
+
+        function getProximoNumero() {
+            const numero = numeros[indiceAtual];
+            indiceAtual = (indiceAtual + 1) % numeros.length;
+            return numero;
+        }
+
+        function atualizarInterface() {
+            const numero = getProximoNumero();
+            numeroAtual.textContent = `Número atual: ${numero}`;
+            contador.textContent = `Próximo número: ${indiceAtual + 1} de ${numeros.length}`;
+        }
+
+        whatsappButton.addEventListener('click', function() {
+            const numero = getProximoNumero();
+            window.open(`https://wa.me/${numero}`, '_blank');
+            atualizarInterface();
+        });
+
+        // Inicializa a interface
+        atualizarInterface();
+    </script>
+</body>
+</html> 
