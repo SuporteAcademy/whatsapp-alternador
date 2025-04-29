@@ -120,12 +120,15 @@
             '558596391843'
         ];
 
-        let indiceAtual = 0;
+        // Recupera o último índice usado ou começa do 0
+        let indiceAtual = parseInt(localStorage.getItem('ultimoIndice')) || 0;
         const whatsappButton = document.getElementById('whatsappButton');
 
         function getProximoNumero() {
             const numero = numeros[indiceAtual];
             indiceAtual = (indiceAtual + 1) % numeros.length;
+            // Salva o novo índice no localStorage
+            localStorage.setItem('ultimoIndice', indiceAtual.toString());
             return numero;
         }
 
