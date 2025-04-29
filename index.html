@@ -44,6 +44,15 @@
             margin: 20px 0;
             font-size: 18px;
             color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .numero-atual i {
+            color: #25D366;
+            font-size: 24px;
         }
 
         .whatsapp-button {
@@ -59,6 +68,10 @@
             border: none;
             cursor: pointer;
             width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .whatsapp-button:hover {
@@ -70,20 +83,49 @@
             margin-top: 20px;
             color: #666;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .contador i {
+            color: #128C7E;
+        }
+
+        .info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .info p {
+            margin: 5px 0;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <h1>Alternador de WhatsApp</h1>
-        <div class="numero-atual" id="numeroAtual">
-            Clique no botão para iniciar
+        <div class="numero-atual">
+            <i class="fab fa-whatsapp"></i>
+            <span id="numeroAtual">Clique no botão para iniciar</span>
         </div>
         <button class="whatsapp-button" id="whatsappButton">
+            <i class="fab fa-whatsapp"></i>
             Abrir WhatsApp
         </button>
-        <div class="contador" id="contador">
-            Números disponíveis: 3
+        <div class="contador">
+            <i class="fas fa-sync-alt"></i>
+            <span id="contador">Números disponíveis: 3</span>
+        </div>
+        <div class="info">
+            <p><i class="fas fa-info-circle"></i> O sistema alterna automaticamente entre os números</p>
+            <p><i class="fas fa-clock"></i> Clique no botão para abrir o próximo número</p>
         </div>
     </div>
 
@@ -108,7 +150,7 @@
 
         function atualizarInterface() {
             const numero = getProximoNumero();
-            numeroAtual.textContent = `Número atual: ${numero}`;
+            numeroAtual.textContent = numero;
             contador.textContent = `Próximo número: ${indiceAtual + 1} de ${numeros.length}`;
         }
 
