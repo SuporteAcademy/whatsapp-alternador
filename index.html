@@ -120,46 +120,33 @@
             '558596391843'
         ];
 
+        // Variável global para controlar qual número será usado
+        let numeroAtual;
+
         function isMobile() {
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        function getProximoNumero() {
-            // Usa os milissegundos atuais para determinar o número inicial
+        // Função que roda quando a página carrega
+        window.onload = function() {
+            // Usa os milissegundos atuais para determinar o número
             const timestamp = new Date().getTime();
-            let indice;
+            // Alterna entre 0 e 1 baseado nos milissegundos
+            const indice = (timestamp % 2);
+            numeroAtual = numeros[indice];
             
-            // Recupera o último índice usado da sessão
-            let ultimoIndice = sessionStorage.getItem('ultimoIndiceWhatsapp');
-            
-            if (ultimoIndice === null) {
-                // Primeira vez - usa timestamp para escolher o número inicial
-                indice = (timestamp % 2); // Alterna entre 0 e 1 baseado nos milissegundos
-                console.log('Primeiro acesso - Timestamp:', timestamp, 'Índice:', indice);
-            } else {
-                // Próxima vez - alterna para o próximo número
-                indice = (parseInt(ultimoIndice) + 1) % numeros.length;
-                console.log('Próximo número - Índice anterior:', ultimoIndice, 'Novo índice:', indice);
-            }
-
-            // Salva o índice atual para o próximo clique
-            sessionStorage.setItem('ultimoIndiceWhatsapp', indice);
-            
-            // Log do número selecionado
-            console.log('Número selecionado:', numeros[indice]);
-            return numeros[indice];
-        }
+            console.log('Timestamp:', timestamp, 'Índice:', indice, 'Número definido:', numeroAtual);
+        };
 
         const whatsappButton = document.getElementById('whatsappButton');
 
         whatsappButton.addEventListener('click', function() {
-            const numero = getProximoNumero();
             if (isMobile()) {
                 // Se for dispositivo móvel, usa o link wa.me
-                window.open(`https://wa.me/${numero}`, '_blank');
+                window.open(`https://wa.me/${numeroAtual}`, '_blank');
             } else {
                 // Se for desktop, abre direto o WhatsApp Web
-                window.open(`https://web.whatsapp.com/send?phone=${numero}`, '_blank');
+                window.open(`https://web.whatsapp.com/send?phone=${numeroAtual}`, '_blank');
             }
         });
     </script>
