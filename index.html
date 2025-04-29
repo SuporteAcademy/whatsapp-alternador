@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alternador de WhatsApp</title>
+    <title>Coimbra Academy</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #25D366, #128C7E);
+            background: linear-gradient(135deg, #1a237e, #0d47a1);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -25,44 +25,27 @@
             background: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             width: 100%;
             max-width: 400px;
             text-align: center;
         }
 
         h1 {
-            color: #128C7E;
+            color: #1a237e;
             margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        .numero-atual {
-            background: #f0f2f5;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            font-size: 18px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .numero-atual i {
-            color: #25D366;
-            font-size: 24px;
+            font-size: 28px;
+            font-weight: 600;
         }
 
         .whatsapp-button {
             display: inline-block;
-            background-color: #25D366;
+            background-color: #1a237e;
             color: white;
-            padding: 15px 30px;
+            padding: 20px 40px;
             border-radius: 50px;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             transition: all 0.3s ease;
             border: none;
@@ -72,75 +55,39 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            margin-top: 30px;
         }
 
         .whatsapp-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            background-color: #0d47a1;
+            box-shadow: 0 5px 15px rgba(26, 35, 126, 0.4);
         }
 
-        .contador {
-            margin-top: 20px;
-            color: #666;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .contador i {
-            color: #128C7E;
-        }
-
-        .info {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            font-size: 14px;
-            color: #666;
-        }
-
-        .info p {
-            margin: 5px 0;
+        .whatsapp-button i {
+            font-size: 24px;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>Alternador de WhatsApp</h1>
-        <div class="numero-atual">
-            <i class="fab fa-whatsapp"></i>
-            <span id="numeroAtual">Clique no botão para iniciar</span>
-        </div>
+        <h1>Coimbra Academy</h1>
         <button class="whatsapp-button" id="whatsappButton">
             <i class="fab fa-whatsapp"></i>
-            Abrir WhatsApp
+            Falar com Consultor
         </button>
-        <div class="contador">
-            <i class="fas fa-sync-alt"></i>
-            <span id="contador">Números disponíveis: 3</span>
-        </div>
-        <div class="info">
-            <p><i class="fas fa-info-circle"></i> O sistema alterna automaticamente entre os números</p>
-            <p><i class="fas fa-clock"></i> Clique no botão para abrir o próximo número</p>
-        </div>
     </div>
 
     <script>
         // Lista de números de WhatsApp
         const numeros = [
-            '55859991881315',
-            '5585991582021',
-            '5511977777777'
+            '558581141843',
+            '558596391843'
         ];
 
         let indiceAtual = 0;
-        const numeroAtual = document.getElementById('numeroAtual');
         const whatsappButton = document.getElementById('whatsappButton');
-        const contador = document.getElementById('contador');
 
         function getProximoNumero() {
             const numero = numeros[indiceAtual];
@@ -148,20 +95,10 @@
             return numero;
         }
 
-        function atualizarInterface() {
-            const numero = getProximoNumero();
-            numeroAtual.textContent = numero;
-            contador.textContent = `Próximo número: ${indiceAtual + 1} de ${numeros.length}`;
-        }
-
         whatsappButton.addEventListener('click', function() {
             const numero = getProximoNumero();
             window.open(`https://wa.me/${numero}`, '_blank');
-            atualizarInterface();
         });
-
-        // Inicializa a interface
-        atualizarInterface();
     </script>
 </body>
 </html> 
