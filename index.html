@@ -120,21 +120,29 @@
             '558596391843'
         ];
 
-        // Recupera o último índice usado ou começa do 0
-        let indiceAtual = parseInt(localStorage.getItem('ultimoIndice')) || 0;
-        const whatsappButton = document.getElementById('whatsappButton');
-
         function isMobile() {
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
         function getProximoNumero() {
-            const numero = numeros[indiceAtual];
-            indiceAtual = (indiceAtual + 1) % numeros.length;
-            // Salva o novo índice no localStorage
-            localStorage.setItem('ultimoIndice', indiceAtual.toString());
-            return numero;
+            // Recupera o último número usado da sessão ou começa do primeiro
+            let ultimoIndice = sessionStorage.getItem('ultimoIndiceWhatsapp');
+            let indice = 0;
+
+            if (ultimoIndice === null) {
+                // Primeira vez - usa o primeiro número
+                indice = 0;
+            } else {
+                // Próxima vez - alterna para o próximo número
+                indice = (parseInt(ultimoIndice) + 1) % numeros.length;
+            }
+
+            // Salva o índice atual para o próximo clique
+            sessionStorage.setItem('ultimoIndiceWhatsapp', indice);
+            return numeros[indice];
         }
+
+        const whatsappButton = document.getElementById('whatsappButton');
 
         whatsappButton.addEventListener('click', function() {
             const numero = getProximoNumero();
