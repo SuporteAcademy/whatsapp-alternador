@@ -149,8 +149,7 @@
             return contador;
         }
 
-        // Função que roda quando a página carrega
-        window.onload = function() {
+        function atualizarNumeroWhatsapp() {
             // Incrementa o contador global e usa o valor para determinar o número
             const contador = incrementarContadorGlobal();
             
@@ -158,12 +157,31 @@
             const indice = contador % 2;
             numeroAtual = numeros[indice];
             
-            console.log('Contador Global:', contador, 'Índice:', indice, 'Número definido:', numeroAtual);
-
             // Formata o número para exibição (adiciona parênteses e hífen)
             const numeroFormatado = `${numeroAtual.slice(0,2)} (${numeroAtual.slice(2,4)}) ${numeroAtual.slice(4,8)}-${numeroAtual.slice(8)}`;
 
             // Atualiza o texto do botão para mostrar qual número está selecionado
+            const whatsappButton = document.getElementById('whatsappButton');
+            whatsappButton.innerHTML = `
+                <div>
+                    <i class="fab fa-whatsapp"></i>
+                    Falar com Consultor
+                </div>
+                <div class="numero">${numeroFormatado}</div>
+            `;
+        }
+
+        // Função que roda quando a página carrega
+        window.onload = function() {
+            // Inicializa com o primeiro número
+            const contador = parseInt(localStorage.getItem('contadorGlobalWhatsapp')) || 0;
+            const indice = contador % 2;
+            numeroAtual = numeros[indice];
+            
+            // Formata o número para exibição
+            const numeroFormatado = `${numeroAtual.slice(0,2)} (${numeroAtual.slice(2,4)}) ${numeroAtual.slice(4,8)}-${numeroAtual.slice(8)}`;
+
+            // Atualiza o texto do botão
             const whatsappButton = document.getElementById('whatsappButton');
             whatsappButton.innerHTML = `
                 <div>
@@ -177,6 +195,9 @@
         const whatsappButton = document.getElementById('whatsappButton');
 
         whatsappButton.addEventListener('click', function() {
+            // Atualiza o número antes de abrir o WhatsApp
+            atualizarNumeroWhatsapp();
+            
             if (isMobile()) {
                 // Se for dispositivo móvel, usa o link wa.me
                 window.open(`https://wa.me/${numeroAtual}`, '_blank');
