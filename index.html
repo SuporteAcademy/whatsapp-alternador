@@ -76,6 +76,15 @@
             justify-content: center;
             gap: 10px;
             box-shadow: 0 5px 15px rgba(26, 35, 126, 0.3);
+            flex-direction: column;
+        }
+
+        .whatsapp-button .numero {
+            font-size: 14px;
+            font-style: italic;
+            opacity: 0.9;
+            margin-top: 4px;
+            font-weight: normal;
         }
 
         .whatsapp-button:hover {
@@ -151,9 +160,18 @@
             
             console.log('Contador Global:', contador, 'Índice:', indice, 'Número definido:', numeroAtual);
 
+            // Formata o número para exibição (adiciona parênteses e hífen)
+            const numeroFormatado = `${numeroAtual.slice(0,2)} (${numeroAtual.slice(2,4)}) ${numeroAtual.slice(4,8)}-${numeroAtual.slice(8)}`;
+
             // Atualiza o texto do botão para mostrar qual número está selecionado
             const whatsappButton = document.getElementById('whatsappButton');
-            whatsappButton.innerHTML = `<i class="fab fa-whatsapp"></i> Falar com Consultor (${numeroAtual.slice(-4)})`;
+            whatsappButton.innerHTML = `
+                <div>
+                    <i class="fab fa-whatsapp"></i>
+                    Falar com Consultor
+                </div>
+                <div class="numero">${numeroFormatado}</div>
+            `;
         };
 
         const whatsappButton = document.getElementById('whatsappButton');
