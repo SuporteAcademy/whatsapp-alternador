@@ -125,7 +125,7 @@
         }
 
         function getProximoNumero() {
-            // Usa os segundos atuais para determinar o número inicial
+            // Usa os milissegundos atuais para determinar o número inicial
             const timestamp = new Date().getTime();
             let indice;
             
@@ -134,14 +134,19 @@
             
             if (ultimoIndice === null) {
                 // Primeira vez - usa timestamp para escolher o número inicial
-                indice = Math.floor(timestamp / 1000) % numeros.length;
+                indice = (timestamp % 2); // Alterna entre 0 e 1 baseado nos milissegundos
+                console.log('Primeiro acesso - Timestamp:', timestamp, 'Índice:', indice);
             } else {
                 // Próxima vez - alterna para o próximo número
                 indice = (parseInt(ultimoIndice) + 1) % numeros.length;
+                console.log('Próximo número - Índice anterior:', ultimoIndice, 'Novo índice:', indice);
             }
 
             // Salva o índice atual para o próximo clique
             sessionStorage.setItem('ultimoIndiceWhatsapp', indice);
+            
+            // Log do número selecionado
+            console.log('Número selecionado:', numeros[indice]);
             return numeros[indice];
         }
 
