@@ -133,15 +133,18 @@
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        function redirecionarAleatoriamente() {
-            // Seleciona um número aleatório da lista
-            const indiceAleatorio = Math.floor(Math.random() * numeros.length);
-            const numero = numeros[indiceAleatorio];
-            
+        function selecionarNumero() {
+            // Usa o timestamp atual para gerar um índice
+            const timestamp = Date.now();
+            const indice = timestamp % numeros.length;
+            return numeros[indice];
+        }
+
+        function atualizarNumeroExibido(numero) {
             // Formata o número para exibição
             const numeroFormatado = `${numero.slice(0,2)} (${numero.slice(2,4)}) ${numero.slice(4,8)}-${numero.slice(8)}`;
             
-            // Atualiza o texto do botão para mostrar qual número foi selecionado
+            // Atualiza o texto do botão
             const whatsappButton = document.getElementById('whatsappButton');
             whatsappButton.innerHTML = `
                 <div>
@@ -150,8 +153,9 @@
                 </div>
                 <div class="numero">${numeroFormatado}</div>
             `;
+        }
 
-            // Abre o WhatsApp com o número selecionado
+        function abrirWhatsApp(numero) {
             if (isMobile()) {
                 window.open(`https://wa.me/${numero}`, '_blank');
             } else {
@@ -161,23 +165,17 @@
 
         // Função que roda quando a página carrega
         window.onload = function() {
-            // Seleciona um número inicial aleatório para exibir
-            const indiceInicial = Math.floor(Math.random() * numeros.length);
-            const numeroInicial = numeros[indiceInicial];
-            const numeroFormatado = `${numeroInicial.slice(0,2)} (${numeroInicial.slice(2,4)}) ${numeroInicial.slice(4,8)}-${numeroInicial.slice(8)}`;
-            
-            const whatsappButton = document.getElementById('whatsappButton');
-            whatsappButton.innerHTML = `
-                <div>
-                    <i class="fab fa-whatsapp"></i>
-                    Falar com Consultor
-                </div>
-                <div class="numero">${numeroFormatado}</div>
-            `;
+            // Seleciona um número baseado no timestamp
+            const numeroInicial = selecionarNumero();
+            atualizarNumeroExibido(numeroInicial);
         };
 
         const whatsappButton = document.getElementById('whatsappButton');
-        whatsappButton.addEventListener('click', redirecionarAleatoriamente);
+        whatsappButton.addEventListener('click', function() {
+            const numero = selecionarNumero();
+            atualizarNumeroExibido(numero);
+            abrirWhatsApp(numero);
+        });
     </script>
 </body>
 </html> 
