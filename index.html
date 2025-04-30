@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coimbra Academy - Contato</title>
+    <!-- Adiciona o Firebase -->
+    <script type="module" src="firebase-config.js"></script>
     <style>
         * {
             margin: 0;
@@ -122,8 +124,11 @@
         </button>
     </div>
 
-    <script>
-        // Lista de números de WhatsApp
+    <script type="module">
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+        import { app } from "./firebase-config.js";
+
+        const database = getDatabase(app);
         const numeros = [
             '558581141843',
             '558596391843'
@@ -135,12 +140,21 @@
 
         async function selecionarNumero() {
             try {
-                // Faz uma requisição para o PHP
-                const response = await fetch('contador.php');
-                const data = await response.json();
+                // Referência para o contador no Firebase
+                const contadorRef = ref(database, 'contador');
                 
-                // Usa o contador para selecionar o número
-                const indice = (data.contador - 1) % numeros.length;
+                // Obtém o valor atual do contador
+                const snapshot = await get(contadorRef);
+                let contador = snapshot.val() || 0;
+                
+                // Incrementa o contador
+                contador++;
+                
+                // Salva o novo valor
+                await set(contadorRef, contador);
+                
+                // Seleciona o número baseado no contador
+                const indice = (contador - 1) % numeros.length;
                 return numeros[indice];
             } catch (error) {
                 console.error('Erro ao obter contador:', error);
