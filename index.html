@@ -133,10 +133,30 @@
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        function selecionarNumero() {
-            // Usa o timestamp atual para gerar um índice
+        function gerarHashUnico() {
+            // Combina várias informações do navegador para gerar um hash único
+            const userAgent = navigator.userAgent;
+            const language = navigator.language;
+            const platform = navigator.platform;
             const timestamp = Date.now();
-            const indice = timestamp % numeros.length;
+            
+            // Combina todas as informações
+            const stringUnica = `${userAgent}-${language}-${platform}-${timestamp}`;
+            
+            // Gera um hash simples
+            let hash = 0;
+            for (let i = 0; i < stringUnica.length; i++) {
+                const char = stringUnica.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Converte para 32bit integer
+            }
+            
+            return Math.abs(hash);
+        }
+
+        function selecionarNumero() {
+            const hash = gerarHashUnico();
+            const indice = hash % numeros.length;
             return numeros[indice];
         }
 
@@ -165,7 +185,7 @@
 
         // Função que roda quando a página carrega
         window.onload = function() {
-            // Seleciona um número baseado no timestamp
+            // Seleciona um número baseado no hash único
             const numeroInicial = selecionarNumero();
             atualizarNumeroExibido(numeroInicial);
         };
