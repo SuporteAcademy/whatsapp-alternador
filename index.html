@@ -129,36 +129,19 @@
             '558596391843'
         ];
 
-        // Variável global para controlar qual número será usado
-        let numeroAtual;
-
         function isMobile() {
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        function incrementarContadorGlobal() {
-            // Pega o contador atual do localStorage
-            let contador = parseInt(localStorage.getItem('contadorGlobalWhatsapp')) || 0;
+        function redirecionarAleatoriamente() {
+            // Seleciona um número aleatório da lista
+            const indiceAleatorio = Math.floor(Math.random() * numeros.length);
+            const numero = numeros[indiceAleatorio];
             
-            // Incrementa o contador
-            contador++;
+            // Formata o número para exibição
+            const numeroFormatado = `${numero.slice(0,2)} (${numero.slice(2,4)}) ${numero.slice(4,8)}-${numero.slice(8)}`;
             
-            // Salva o novo valor
-            localStorage.setItem('contadorGlobalWhatsapp', contador);
-            
-            return contador;
-        }
-
-        function atualizarNumeroWhatsapp() {
-            // Usa o contador para alternar entre os números (par/ímpar)
-            const contador = parseInt(localStorage.getItem('contadorGlobalWhatsapp')) || 0;
-            const indice = contador % 2;
-            numeroAtual = numeros[indice];
-            
-            // Formata o número para exibição (adiciona parênteses e hífen)
-            const numeroFormatado = `${numeroAtual.slice(0,2)} (${numeroAtual.slice(2,4)}) ${numeroAtual.slice(4,8)}-${numeroAtual.slice(8)}`;
-
-            // Atualiza o texto do botão para mostrar qual número está selecionado
+            // Atualiza o texto do botão para mostrar qual número foi selecionado
             const whatsappButton = document.getElementById('whatsappButton');
             whatsappButton.innerHTML = `
                 <div>
@@ -167,28 +150,34 @@
                 </div>
                 <div class="numero">${numeroFormatado}</div>
             `;
+
+            // Abre o WhatsApp com o número selecionado
+            if (isMobile()) {
+                window.open(`https://wa.me/${numero}`, '_blank');
+            } else {
+                window.open(`https://web.whatsapp.com/send?phone=${numero}`, '_blank');
+            }
         }
 
         // Função que roda quando a página carrega
         window.onload = function() {
-            // Incrementa o contador quando a página carrega
-            incrementarContadorGlobal();
+            // Seleciona um número inicial aleatório para exibir
+            const indiceInicial = Math.floor(Math.random() * numeros.length);
+            const numeroInicial = numeros[indiceInicial];
+            const numeroFormatado = `${numeroInicial.slice(0,2)} (${numeroInicial.slice(2,4)}) ${numeroInicial.slice(4,8)}-${numeroInicial.slice(8)}`;
             
-            // Atualiza o número exibido
-            atualizarNumeroWhatsapp();
+            const whatsappButton = document.getElementById('whatsappButton');
+            whatsappButton.innerHTML = `
+                <div>
+                    <i class="fab fa-whatsapp"></i>
+                    Falar com Consultor
+                </div>
+                <div class="numero">${numeroFormatado}</div>
+            `;
         };
 
         const whatsappButton = document.getElementById('whatsappButton');
-
-        whatsappButton.addEventListener('click', function() {
-            if (isMobile()) {
-                // Se for dispositivo móvel, usa o link wa.me
-                window.open(`https://wa.me/${numeroAtual}`, '_blank');
-            } else {
-                // Se for desktop, abre direto o WhatsApp Web
-                window.open(`https://web.whatsapp.com/send?phone=${numeroAtual}`, '_blank');
-            }
-        });
+        whatsappButton.addEventListener('click', redirecionarAleatoriamente);
     </script>
 </body>
 </html> 
