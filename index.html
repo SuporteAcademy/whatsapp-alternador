@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coimbra Academy - Contato</title>
-    <!-- Adiciona o Firebase -->
-    <script type="module" src="firebase-config.js"></script>
     <style>
         * {
             margin: 0;
@@ -124,11 +122,7 @@
         </button>
     </div>
 
-    <script type="module">
-        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
-        import { app } from "./firebase-config.js";
-
-        const database = getDatabase(app);
+    <script>
         const numeros = [
             '558581141843',
             '558596391843'
@@ -138,30 +132,10 @@
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        async function selecionarNumero() {
-            try {
-                // Referência para o contador no Firebase
-                const contadorRef = ref(database, 'contador');
-                
-                // Obtém o valor atual do contador
-                const snapshot = await get(contadorRef);
-                let contador = snapshot.val() || 0;
-                
-                // Incrementa o contador
-                contador++;
-                
-                // Salva o novo valor
-                await set(contadorRef, contador);
-                
-                // Seleciona o número baseado no contador
-                const indice = (contador - 1) % numeros.length;
-                return numeros[indice];
-            } catch (error) {
-                console.error('Erro ao obter contador:', error);
-                // Em caso de erro, usa um número aleatório
-                const indice = Math.floor(Math.random() * numeros.length);
-                return numeros[indice];
-            }
+        function selecionarNumero() {
+            // Seleciona um número aleatório
+            const indice = Math.floor(Math.random() * numeros.length);
+            return numeros[indice];
         }
 
         function atualizarNumeroExibido(numero) {
@@ -191,9 +165,9 @@
         let numeroAtual;
 
         // Função que roda quando a página carrega
-        window.onload = async function() {
-            // Seleciona o próximo número na sequência
-            numeroAtual = await selecionarNumero();
+        window.onload = function() {
+            // Seleciona um número aleatório
+            numeroAtual = selecionarNumero();
             atualizarNumeroExibido(numeroAtual);
         };
 
