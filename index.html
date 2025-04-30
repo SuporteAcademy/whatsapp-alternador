@@ -133,9 +133,23 @@
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
+        function incrementarContador() {
+            // Pega o contador atual do localStorage
+            let contador = parseInt(localStorage.getItem('contadorWhatsapp')) || 0;
+            
+            // Incrementa o contador
+            contador++;
+            
+            // Salva o novo valor
+            localStorage.setItem('contadorWhatsapp', contador);
+            
+            return contador;
+        }
+
         function selecionarNumero() {
-            // Gera um número aleatório entre 0 e o tamanho da lista
-            const indice = Math.floor(Math.random() * numeros.length);
+            // Usa o contador para alternar entre os números
+            const contador = incrementarContador();
+            const indice = (contador - 1) % numeros.length;
             return numeros[indice];
         }
 
@@ -162,18 +176,19 @@
             }
         }
 
+        // Variável global para armazenar o número selecionado
+        let numeroAtual;
+
         // Função que roda quando a página carrega
         window.onload = function() {
-            // Seleciona um número aleatório
-            const numeroInicial = selecionarNumero();
-            atualizarNumeroExibido(numeroInicial);
+            // Seleciona o próximo número na sequência
+            numeroAtual = selecionarNumero();
+            atualizarNumeroExibido(numeroAtual);
         };
 
         const whatsappButton = document.getElementById('whatsappButton');
         whatsappButton.addEventListener('click', function() {
-            const numero = selecionarNumero();
-            atualizarNumeroExibido(numero);
-            abrirWhatsApp(numero);
+            abrirWhatsApp(numeroAtual);
         });
     </script>
 </body>
