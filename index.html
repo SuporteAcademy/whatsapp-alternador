@@ -133,21 +133,21 @@
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        function selecionarNumero() {
-            // Pega o contador atual do localStorage
-            let contador = parseInt(localStorage.getItem('contadorWhatsapp')) || 0;
-            
-            // Seleciona o número baseado no contador
-            const indice = contador % numeros.length;
-            const numero = numeros[indice];
-            
-            // Incrementa o contador
-            contador++;
-            
-            // Salva o novo valor
-            localStorage.setItem('contadorWhatsapp', contador);
-            
-            return numero;
+        async function selecionarNumero() {
+            try {
+                // Faz uma requisição para o PHP
+                const response = await fetch('contador.php');
+                const data = await response.json();
+                
+                // Usa o contador para selecionar o número
+                const indice = (data.contador - 1) % numeros.length;
+                return numeros[indice];
+            } catch (error) {
+                console.error('Erro ao obter contador:', error);
+                // Em caso de erro, usa um número aleatório
+                const indice = Math.floor(Math.random() * numeros.length);
+                return numeros[indice];
+            }
         }
 
         function atualizarNumeroExibido(numero) {
@@ -177,9 +177,9 @@
         let numeroAtual;
 
         // Função que roda quando a página carrega
-        window.onload = function() {
+        window.onload = async function() {
             // Seleciona o próximo número na sequência
-            numeroAtual = selecionarNumero();
+            numeroAtual = await selecionarNumero();
             atualizarNumeroExibido(numeroAtual);
         };
 
