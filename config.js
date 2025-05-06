@@ -1,9 +1,8 @@
 // Configuração dos números de WhatsApp
 const config = {
     numeros: [
-        '55859991881315',
-        '5585991582021',
-        '5511977777777'
+        '558584324206',
+        '558581141843'
     ],
     indiceAtual: 0
 };
